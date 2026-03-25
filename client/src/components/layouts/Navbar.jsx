@@ -18,10 +18,10 @@ const navLinks = [
 ]
 
 export default function Navbar() {
-  const [scrolled, setScrolled]   = useState(false)
-  const [menuOpen, setMenuOpen]   = useState(false)
-  const location                  = useLocation()
-  const { dark, toggle }          = useTheme()
+  const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const location                = useLocation()
+  const { dark, toggle }        = useTheme()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
@@ -34,30 +34,76 @@ export default function Navbar() {
   return (
     <>
       <nav
-        style={{ backgroundColor: 'var(--navbar-bg)' }}
-        className={`fixed w-full z-50 transition-all duration-500 backdrop-blur-sm
-          ${scrolled ? 'shadow-lg py-3' : 'py-5'}`}
+        style={{
+          backgroundColor: 'var(--navbar-bg)',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          width: '100%',
+          zIndex: 50,
+          backdropFilter: 'blur(8px)',
+          boxShadow: scrolled ? '0 4px 24px rgba(0,0,0,0.2)' : 'none',
+          padding: scrolled ? '0.75rem 0' : '1.25rem 0',
+          transition: 'all 0.5s ease',
+        }}
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+        <div style={{
+          maxWidth: '80rem',
+          margin: '0 auto',
+          padding: '0 1.5rem',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
 
           {/* Logo */}
-          <Link to="/" className="flex flex-col leading-none">
-            <span className="font-display text-gold text-xl font-semibold tracking-wider">
+          <Link to="/" style={{ display: 'flex', flexDirection: 'column', lineHeight: 1, textDecoration: 'none' }}>
+            <span style={{
+              fontFamily: 'var(--font-display)',
+              color: 'var(--color-gold)',
+              fontSize: '1.25rem',
+              fontWeight: 600,
+              letterSpacing: '0.05em',
+            }}>
               Christopher
             </span>
-            <span className="font-sans text-xs tracking-[0.3em] uppercase"
-              style={{ color: 'rgba(245,240,232,0.6)' }}>
+            <span style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: '0.7rem',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              color: 'rgba(245,240,232,0.6)',
+            }}>
               Ezeafulukwe
             </span>
           </Link>
 
-          {/* Desktop links + toggle */}
-          <div className="hidden lg:flex items-center gap-8">
+          {/* Desktop links — hidden below 1024px */}
+          <div className="desktop-nav" style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '2rem',
+          }}>
             {navLinks.map(link => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`nav-link ${location.pathname === link.path ? '!text-gold' : ''}`}
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '0.8rem',
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  textDecoration: 'none',
+                  color: location.pathname === link.path
+                    ? 'var(--color-gold)'
+                    : 'rgba(245,240,232,0.8)',
+                  transition: 'color 0.3s ease',
+                }}
+                onMouseEnter={e => e.target.style.color = 'var(--color-gold)'}
+                onMouseLeave={e => e.target.style.color = location.pathname === link.path
+                  ? 'var(--color-gold)'
+                  : 'rgba(245,240,232,0.8)'}
               >
                 {link.label}
               </Link>
@@ -67,16 +113,28 @@ export default function Navbar() {
             <button
               onClick={toggle}
               aria-label="Toggle dark mode"
-              className="w-9 h-9 flex items-center justify-center border border-gold/30
-                         hover:border-gold text-gold hover:bg-gold/10 transition-all duration-300"
+              style={{
+                width: '2.25rem',
+                height: '2.25rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px solid rgba(201,146,42,0.3)',
+                background: 'transparent',
+                color: 'var(--color-gold)',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                flexShrink: 0,
+              }}
             >
               <AnimatePresence mode="wait" initial={false}>
                 <motion.span
-                  key={dark ? 'moon' : 'sun'}
+                  key={dark ? 'sun' : 'moon'}
                   initial={{ opacity: 0, rotate: -30, scale: 0.7 }}
                   animate={{ opacity: 1, rotate: 0,   scale: 1   }}
                   exit={{    opacity: 0, rotate:  30, scale: 0.7 }}
                   transition={{ duration: 0.2 }}
+                  style={{ display: 'flex' }}
                 >
                   {dark ? <HiOutlineSun size={16} /> : <HiOutlineMoon size={16} />}
                 </motion.span>
@@ -84,18 +142,36 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* Mobile: toggle + hamburger */}
-          <div className="lg:hidden flex items-center gap-3">
+          {/* Mobile controls */}
+          <div className="mobile-nav" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <button
               onClick={toggle}
               aria-label="Toggle dark mode"
-              className="w-8 h-8 flex items-center justify-center border border-gold/30 text-gold"
+              style={{
+                width: '2rem',
+                height: '2rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px solid rgba(201,146,42,0.3)',
+                background: 'transparent',
+                color: 'var(--color-gold)',
+                cursor: 'pointer',
+              }}
             >
               {dark ? <HiOutlineSun size={14} /> : <HiOutlineMoon size={14} />}
             </button>
             <button
-              className="text-cream text-2xl"
               onClick={() => setMenuOpen(!menuOpen)}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: 'var(--color-cream)',
+                fontSize: '1.5rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+              }}
             >
               {menuOpen ? <HiX /> : <HiMenu />}
             </button>
@@ -103,7 +179,18 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile menu */}
+      {/* Responsive styles */}
+      <style>{`
+        .desktop-nav { display: flex !important; }
+        .mobile-nav  { display: none  !important; }
+
+        @media (max-width: 1023px) {
+          .desktop-nav { display: none  !important; }
+          .mobile-nav  { display: flex  !important; }
+        }
+      `}</style>
+
+      {/* Mobile menu overlay */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -111,15 +198,30 @@ export default function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{    opacity: 0, x: '100%' }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-8"
-            style={{ backgroundColor: 'var(--navbar-bg)' }}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 40,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '2rem',
+              backgroundColor: 'var(--navbar-bg)',
+            }}
           >
             {navLinks.map(link => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`font-display text-3xl font-light transition-colors hover:text-gold
-                  ${location.pathname === link.path ? 'text-gold' : 'text-cream'}`}
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '1.875rem',
+                  fontWeight: 300,
+                  textDecoration: 'none',
+                  color: location.pathname === link.path ? 'var(--color-gold)' : 'var(--color-cream)',
+                  transition: 'color 0.3s ease',
+                }}
               >
                 {link.label}
               </Link>
