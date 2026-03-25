@@ -6,41 +6,70 @@ const path = require('path')
 const multer = require('multer')
 const rateLimiter = require('./middleware/rateLimiter')
 
+// Cloudinary setup
+const cloudinary = require('cloudinary').v2
+const { CloudinaryStorage } = require('multer-storage-cloudinary')
+
 dotenv.config()
+
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+})
 
 const app = express()
 const PORT = process.env.PORT || 5000
 
-// ─── Multer Setup for Image Uploads ────────────────────────────────
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, 'public', 'uploads'))
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-    cb(null, uniqueSuffix + path.extname(file.originalname))
-  }
-})
+// ─── Multer Setup for Image Uploads (Cloudinary) ───────────────────
+// Use Cloudinary storage if credentials are provided, otherwise use local storage
+let upload
 
-const upload = multer({ 
-  storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
-  fileFilter: (req, file, cb) => {
-    const allowedTypes = /jpeg|jpg|png|gif|webp/
-    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase())
-    const mimetype = allowedTypes.test(file.mimetype)
-    if (extname && mimetype) {
-      return cb(null, true)
+if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
+  const cloudinaryStorage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+      folder: 'ce-website',
+      allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+      transformation: [{ width: 1200, height: 1200, crop: 'limit' }]
     }
-    cb(new Error('Only image files are allowed!'))
-  }
-})
+  })
+  upload = multer({ 
+    storage: cloudinaryStorage,
+    limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
+  })
+} else {
+  // Fallback to local storage if Cloudinary is not configured
+  const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, path.join(__dirname, 'public', 'uploads'))
+    },
+    filename: (req, file, cb) => {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+      cb(null, uniqueSuffix + path.extname(file.originalname))
+    }
+  })
+  upload = multer({ 
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 },
+    fileFilter: (req, file, cb) => {
+      const allowedTypes = /jpeg|jpg|png|gif|webp/
+      const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase())
+      const mimetype = allowedTypes.test(file.mimetype)
+      if (extname && mimetype) {
+        return cb(null, true)
+      }
+      cb(new Error('Only image files are allowed!'))
+    }
+  })
 
-// Ensure upload directory exists
-const fs = require('fs')
-const uploadDir = path.join(__dirname, 'public', 'uploads')
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true })
+  // Ensure upload directory exists
+  const fs = require('fs')
+  const uploadDir = path.join(__dirname, 'public', 'uploads')
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true })
+  }
 }
 
 // ─── Middleware ────────────────────────────────────────────────
@@ -62,9 +91,18 @@ app.post('/api/upload', (req, res) => {
     if (!req.file) {
       return res.status(400).json({ success: false, message: 'No file uploaded' })
     }
-    // Use the server's own URL or environment variable
-    const serverURL = process.env.SERVER_URL || `http://localhost:${PORT}`;
-    const imageUrl = `${serverURL}/uploads/${req.file.filename}`
+    
+    // Determine the image URL based on storage type
+    let imageUrl
+    if (req.file.path) {
+      // Cloudinary returns 'path' as the Cloudinary URL
+      imageUrl = req.file.path
+    } else {
+      // Local storage returns filename, construct the URL
+      const serverURL = process.env.SERVER_URL || `http://localhost:${PORT}`;
+      imageUrl = `${serverURL}/uploads/${req.file.filename}`
+    }
+    
     res.json({ success: true, data: { url: imageUrl } })
   })
 })
