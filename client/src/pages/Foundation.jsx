@@ -181,12 +181,12 @@ export default function Foundation() {
       </section>
 
       {/* CTA */}
-      <section className="bg-navy section-padding text-center px-6 md:px-12">
+      <section className={`section-padding text-center px-6 md:px-12 ${heroDark ? 'bg-navy' : 'bg-cream'}`}>
         <div className="max-w-3xl mx-auto">
-          <h2 className={`font-display text-3xl md:text-5xl font-light mb-6 leading-tight ${dark ? 'text-cream' : 'text-navy'}`}>
+          <h2 className={`font-display text-3xl md:text-5xl font-light mb-6 leading-tight ${heroDark ? 'text-cream' : 'text-navy'}`}>
             Be Part of the <em className="text-gold italic">Change</em>
           </h2>
-          <p className={`font-body text-sm md:text-base mb-10 leading-relaxed ${dark ? 'text-cream/60' : 'text-navy/60'}`}>
+          <p className={`font-body text-sm md:text-base mb-10 leading-relaxed ${heroDark ? 'text-cream/60' : 'text-navy/60'}`}>
             The Foundation is in its founding phase. If you share this vision for Africa's transformation, we'd love to connect with you.
           </p>
           <Link 
