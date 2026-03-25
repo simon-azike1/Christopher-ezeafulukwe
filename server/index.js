@@ -25,14 +25,14 @@ const PORT = process.env.PORT || 5000
 // ─── Multer Setup for Image Uploads (Cloudinary) ───────────────────
 // Use Cloudinary storage if credentials are provided, otherwise use local storage
 let upload
+const isCloudinaryConfigured = !!(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET)
 
-if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
+if (isCloudinaryConfigured) {
   const cloudinaryStorage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-      folder: 'ce-website',
-      allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
-      transformation: [{ width: 1200, height: 1200, crop: 'limit' }]
+      folder: 'christopher-ezeafulukwe',
+      allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
     }
   })
   upload = multer({ 
@@ -84,27 +84,46 @@ app.use(express.urlencoded({ extended: true }))
 // ─── Routes ───────────────────────────────────────────────────
 // Upload route first to avoid conflicts
 app.post('/api/upload', (req, res) => {
-  upload.single('image')(req, res, (err) => {
-    if (err) {
-      return res.status(400).json({ success: false, message: err.message })
-    }
-    if (!req.file) {
-      return res.status(400).json({ success: false, message: 'No file uploaded' })
-    }
-    
-    // Determine the image URL based on storage type
-    let imageUrl
-    if (req.file.path) {
-      // Cloudinary returns 'path' as the Cloudinary URL
-      imageUrl = req.file.path
-    } else {
-      // Local storage returns filename, construct the URL
-      const serverURL = process.env.SERVER_URL || 'https://christopher-ezeafulukwe.onrender.com';
-      imageUrl = `${serverURL}/uploads/${req.file.filename}`
-    }
-    
-    res.json({ success: true, data: { url: imageUrl } })
-  })
+  try {
+    upload.single('image')(req, res, (err) => {
+      if (err) {
+        console.error('Upload middleware error:', err)
+        return res.status(400).json({ 
+          success: false, 
+          message: err.message 
+        })
+      }
+      if (!req.file) {
+        console.error('No file received. Request body:', req.body)
+        return res.status(400).json({ 
+          success: false, 
+          message: 'No file received. Make sure the field name is "image"' 
+        })
+      }
+      
+      // Cloudinary returns the full HTTPS URL in req.file.path
+      // Local storage returns only the filename
+      let imageUrl
+      if (isCloudinaryConfigured) {
+        // Cloudinary returns full HTTPS URL directly
+        imageUrl = req.file.path
+        console.log('Cloudinary upload successful:', imageUrl)
+      } else {
+        // Local storage - construct URL from server URL
+        const serverURL = process.env.SERVER_URL || 'https://christopher-ezeafulukwe.onrender.com';
+        imageUrl = `${serverURL}/uploads/${req.file.filename}`
+        console.log('Local upload successful:', imageUrl)
+      }
+      
+      res.json({ success: true, data: { url: imageUrl } })
+    })
+  } catch (err) {
+    console.error('Upload route error:', err)
+    res.status(400).json({ 
+      success: false, 
+      message: err.message 
+    })
+  }
 })
 
 app.use('/api/contact', rateLimiter(5, 15 * 60 * 1000), require('./routes/contact'))

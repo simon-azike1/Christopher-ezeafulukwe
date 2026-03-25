@@ -21,6 +21,7 @@ const seedData = {
       status: 'Ongoing',
       technologies: ['Generation', 'Infrastructure', 'Nigeria'],
       link: '',
+      image: '',
       featured: true,
       order: 1,
     },
@@ -31,6 +32,7 @@ const seedData = {
       status: 'In Planning',
       technologies: ['Renewables', 'Sustainability', 'Africa'],
       link: '',
+      image: '',
       featured: true,
       order: 2,
     },
@@ -41,6 +43,7 @@ const seedData = {
       status: 'Active',
       technologies: ['Policy', 'Regulation', 'Reform'],
       link: '',
+      image: '',
       featured: true,
       order: 3,
     },
@@ -51,6 +54,7 @@ const seedData = {
       status: 'Coming Soon',
       technologies: ['Education', 'Youth', 'Africa'],
       link: '/foundation',
+      image: '',
       featured: true,
       order: 4,
     },
@@ -124,24 +128,28 @@ const seedData = {
       title: 'Education Access',
       description: 'Providing scholarships, learning materials, and infrastructure to underserved communities across Africa.',
       category: 'Education',
+      image: '',
       order: 1,
     },
     {
       title: 'Energy for Communities',
       description: 'Championing off-grid and renewable energy solutions to power schools, clinics, and homes in rural Africa.',
       category: 'Energy',
+      image: '',
       order: 2,
     },
     {
       title: 'Youth Empowerment',
       description: "Mentorship, skills development, and entrepreneurship programs to equip Africa's next generation of leaders.",
       category: 'Community',
+      image: '',
       order: 3,
     },
     {
       title: 'Governance & Institutions',
       description: 'Supporting initiatives that strengthen public institutions and accountability across the continent.',
       category: 'Governance',
+      image: '',
       order: 4,
     },
   ],
@@ -159,6 +167,7 @@ The fundamental challenge lies in balancing affordability for consumers with the
 Without meaningful reform, we risk perpetuating a cycle where distribution companies cannot invest in infrastructure upgrades, resulting in load shedding and unreliable supply that ultimately harms the very consumers the low tariffs are meant to protect.
 
 True tariff reform must be comprehensive—addressing not just the end-user prices but the entire value chain from generation to distribution, ensuring transparency, efficiency, and sustainable pricing that enables growth.`,
+      coverImage: '',
       readTime: '7 min read',
       published: true,
       publishedAt: new Date('2025-03-01'),
@@ -175,6 +184,7 @@ Transformative CEO leadership in Africa means navigating complexity while mainta
 The most successful leaders I've observed share certain traits: they combine vision with execution discipline, they build strong teams and empower them, they maintain integrity through transparency, and they remain humble enough to learn from failures while confident enough to take bold decisions.
 
 In emerging markets, the CEO must be both architect of strategy and champion of culture, driving transformation while managing the delicate balance of stakeholder expectations.`,
+      coverImage: '',
       readTime: '6 min read',
       published: true,
       publishedAt: new Date('2025-01-15'),
@@ -191,6 +201,7 @@ The continent's energy trajectory will determine its economic destiny. Yet we re
 Key priorities must include: accelerating renewable energy adoption to harness our abundant solar and wind resources; developing regional power pools to share resources across borders; attracting patient capital for infrastructure investment; and building local capacity for energy technology manufacturing and maintenance.
 
 Energy access is not merely a utility issue—it's the foundation upon which industrial development, healthcare, education, and ultimately human prosperity are built.`,
+      coverImage: '',
       readTime: '9 min read',
       published: true,
       publishedAt: new Date('2024-11-01'),
@@ -207,6 +218,7 @@ Effective board governance in Africa requires balancing global best practices wi
 We must move beyond governance as compliance to governance as competitive advantage. Boards should be strategic assets, not just oversight mechanisms. They should drive transformation, challenge assumptions, and ensure organizations are positioned for long-term success while creating value for all stakeholders.
 
 The evolution of African corporate governance will be a key determinant of whether the continent's businesses can attract global capital and compete on the world stage.`,
+      coverImage: '',
       readTime: '5 min read',
       published: true,
       publishedAt: new Date('2024-09-15'),
