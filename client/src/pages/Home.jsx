@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import PageWrapper from '../components/ui/PageWrapper'
@@ -10,6 +11,9 @@ export default function Home() {
   const { dark } = useTheme()
   const { scrollY } = useScroll()
   const containerRef = useRef(null)
+  
+  // Hero section uses theme context (defaults to dark on first visit)
+  const heroDark = dark
   
   // ── Parallax Transforms ─────────────────────────────
   const videoY = useTransform(scrollY, [0, 500], [0, 150])
@@ -43,7 +47,7 @@ export default function Home() {
       {/* ── Video Hero Section ─────────────────────────────────────────── */}
       <section 
         ref={containerRef}
-        className={`relative min-h-screen flex items-center overflow-hidden ${dark ? 'bg-navy' : 'bg-cream'}`}
+        className={`relative min-h-screen flex items-center overflow-hidden ${heroDark ? 'bg-navy' : 'bg-cream'}`}
       >
         {/* YouTube Background with Parallax */}
         <motion.div 
@@ -68,8 +72,8 @@ export default function Home() {
             /> */}
             {/* Fallback poster image */}
             <div 
-              className={`absolute inset-0 bg-cover bg-center ${dark ? 'bg-navy/90' : 'bg-cream'}`}
-              style={{ backgroundImage: dark ? 'url("/images/hero-poster.jpg")' : 'none' }}
+              className={`absolute inset-0 bg-cover bg-center ${heroDark ? 'bg-navy/90' : 'bg-cream'}`}
+              style={{ backgroundImage: heroDark ? 'url("/images/hero-poster.jpg")' : 'none' }}
             />
           </div>
         </motion.div>
@@ -77,7 +81,7 @@ export default function Home() {
         {/* Dark Overlay for Text Readability */}
         <motion.div 
           style={{ opacity: overlayOpacity }}
-          className={`absolute inset-0 transition-colors duration-300 ${dark ? 'bg-gradient-to-br from-navy/95 via-navy/80 to-navy/60' : 'bg-cream/30'}`}
+          className={`absolute inset-0 transition-colors duration-300 ${heroDark ? 'bg-gradient-to-br from-navy/95 via-navy/80 to-navy/60' : 'bg-cream/30'}`}
         />
         
         {/* Subtle Animated Grid Texture */}
@@ -93,7 +97,7 @@ export default function Home() {
         {/* Left Gold Accent Bar with Parallax */}
         <motion.div 
           style={{ y: useTransform(scrollY, [0, 300], [0, -20]) }}
-          className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-gold to-transparent opacity-80 ${dark ? '' : 'hidden'}`}
+          className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-gold to-transparent opacity-80 ${heroDark ? '' : 'hidden'}`}
         />
 
         {/* Content Container */}
@@ -124,7 +128,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.35 }}
-                className={`font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light leading-[0.95] ${dark ? 'text-cream' : 'text-navy'}`}
+                className={`font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light leading-[0.95] ${heroDark ? 'text-cream' : 'text-navy'}`}
               >
                 Christopher
               </motion.h1>
@@ -149,7 +153,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7 }}
-              className={`font-body text-lg md:text-xl leading-relaxed max-w-xl ${dark ? 'text-cream/90' : 'text-navy/80'}`}
+              className={`font-body text-lg md:text-xl leading-relaxed max-w-xl ${heroDark ? 'text-cream/90' : 'text-navy/80'}`}
             >
               Energy executive, legal scholar, and corporate governance leader with over two decades 
               shaping Africa's power sector through innovation, integrity, and impact.
@@ -164,7 +168,7 @@ export default function Home() {
             >
               <Link 
                 to="/about" 
-                className={`group inline-flex items-center gap-2 px-6 py-3.5 bg-gold font-medium rounded-lg hover:bg-gold-light transition-all duration-300 shadow-lg ${dark ? 'shadow-gold/20 hover:shadow-gold/40 text-navy' : 'shadow-gold/30 text-navy'}`}
+                className={`group inline-flex items-center gap-2 px-6 py-3.5 bg-gold font-medium rounded-lg hover:bg-gold-light transition-all duration-300 shadow-lg ${heroDark ? 'shadow-gold/20 hover:shadow-gold/40 text-navy' : 'shadow-gold/30 text-navy'}`}
               >
                 Discover His Story
                 <motion.span animate={{ x: [0, 4, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>→</motion.span>
@@ -172,7 +176,7 @@ export default function Home() {
               
               <Link 
                 to="/career" 
-                className={`inline-flex items-center gap-2 px-6 py-3.5 border font-medium rounded-lg transition-all duration-300 backdrop-blur-sm ${dark ? 'border-cream/40 text-cream hover:bg-cream/10' : 'border-navy/40 text-navy hover:bg-navy/5'}`}
+                className={`inline-flex items-center gap-2 px-6 py-3.5 border font-medium rounded-lg transition-all duration-300 backdrop-blur-sm ${heroDark ? 'border-cream/40 text-cream hover:bg-cream/10' : 'border-navy/40 text-navy hover:bg-navy/5'}`}
               >
                 View Career
               </Link>
@@ -181,7 +185,7 @@ export default function Home() {
                 href="https://www.linkedin.com/in/christopher-ezeafulukwe-121450ba/"
                 target="_blank" 
                 rel="noopener noreferrer"
-                className={`p-3 transition-colors duration-300 rounded-full hover:bg-white/10 ${dark ? 'text-cream/70 hover:text-gold' : 'text-navy/70 hover:text-gold'}`}
+                className={`p-3 transition-colors duration-300 rounded-full hover:bg-white/10 ${heroDark ? 'text-cream/70 hover:text-gold' : 'text-navy/70 hover:text-gold'}`}
                 aria-label="Connect on LinkedIn"
               >
                 <FaLinkedin className="text-xl" />
@@ -209,7 +213,7 @@ export default function Home() {
             opacity: useTransform(scrollY, [0, 150, 300], [1, 0.7, 0]),
             y: useTransform(scrollY, [0, 200], [0, 30])
           }}
-          className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 ${dark ? 'text-cream/50' : 'text-navy/50'}`}
+          className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 ${heroDark ? 'text-cream/50' : 'text-navy/50'}`}
         >
           <span className="font-sans text-[10px] tracking-[0.3em] uppercase">Explore</span>
           <motion.div 

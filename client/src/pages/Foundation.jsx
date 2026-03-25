@@ -34,6 +34,17 @@ export default function Foundation() {
   const [pillars, setPillars] = useState(emptyPillars)
   const [loading, setLoading] = useState(true)
 
+  // Default to dark mode on first visit
+  useEffect(() => {
+    const stored = localStorage.getItem('ce_theme')
+    if (!stored) {
+      localStorage.setItem('ce_theme', 'dark')
+    }
+  }, [])
+
+  // Hero section uses dark by default on first visit
+  const heroDark = dark
+
   useEffect(() => {
     api.get('/api/content/foundation')
       .then(res => {
@@ -58,10 +69,10 @@ export default function Foundation() {
   return (
     <PageWrapper>
       {/* Full-screen hero */}
-      <section className={`min-h-screen relative flex items-center overflow-hidden ${dark ? 'bg-navy' : 'bg-cream'}`}>
+      <section className={`min-h-screen relative flex items-center overflow-hidden ${heroDark ? 'bg-navy' : 'bg-cream'}`}>
         <div className="absolute inset-0 opacity-5"
           style={{ backgroundImage: 'repeating-linear-gradient(-45deg, #C9922A 0, #C9922A 1px, transparent 0, transparent 50%)', backgroundSize: '30px 30px' }} />
-        <div className={`absolute right-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-gold to-transparent ${dark ? '' : 'hidden'}`} />
+        <div className="absolute right-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-gold to-transparent ${heroDark ? '' : 'hidden'}" />
 
         <div className="max-w-5xl mx-auto px-6 md:px-12 lg:px-24 pt-40 md:pt-48 pb-20 text-center relative z-10">
           <motion.div 
@@ -84,7 +95,7 @@ export default function Foundation() {
             initial={{ opacity: 0, y: 30 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ delay: 0.3 }}
-            className={`font-display text-4xl md:text-7xl font-light leading-tight mb-6 ${dark ? 'text-cream' : 'text-navy'}`}
+            className={`font-display text-4xl md:text-7xl font-light leading-tight mb-6 ${heroDark ? 'text-cream' : 'text-navy'}`}
           >
             The Ezeafulukwe  
 <em className="text-gold italic font-semibold">Foundation</em>
@@ -99,7 +110,7 @@ export default function Foundation() {
             initial={{ opacity: 0, y: 20 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ delay: 0.6 }}
-            className={`font-body text-lg md:text-xl leading-relaxed max-w-3xl mx-auto mb-10 ${dark ? 'text-cream/70' : 'text-navy/70'}`}
+            className={`font-body text-lg md:text-xl leading-relaxed max-w-3xl mx-auto mb-10 ${heroDark ? 'text-cream/70' : 'text-navy/70'}`}
           >
             A forthcoming initiative dedicated to education, energy access, and the empowerment of Africa's youth — because a continent's greatest asset is always its people.
           </motion.p>
