@@ -1,6 +1,7 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import { ThemeProvider } from './context/ThemeContext'
+import { motion } from 'framer-motion'
 
 // Layout
 import Navbar from './components/layouts/Navbar.jsx'
@@ -17,6 +18,46 @@ import Projects from './pages/Projects'
 import Blog from './pages/Blog'
 import Foundation from './pages/Foundation'
 import Contact from './pages/Contact'
+
+function NotFound() {
+  return (
+    <div style={{ 
+      minHeight: '60vh', 
+      display: 'flex', 
+      flexDirection: 'column', 
+      alignItems: 'center', 
+      justifyContent: 'center',
+      textAlign: 'center',
+      padding: '2rem'
+    }}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h1 style={{ fontSize: '6rem', margin: 0, color: 'var(--primary-color)' }}>404</h1>
+        <h2 style={{ fontSize: '1.5rem', marginTop: '1rem' }}>Page Not Found</h2>
+        <p style={{ marginTop: '1rem', color: 'var(--text-secondary)' }}>
+          The page you're looking for doesn't exist or has been moved.
+        </p>
+        <Link 
+          to="/" 
+          style={{ 
+            marginTop: '2rem',
+            padding: '0.75rem 2rem',
+            backgroundColor: 'var(--primary-color)',
+            color: 'white',
+            textDecoration: 'none',
+            borderRadius: '4px',
+            display: 'inline-block'
+          }}
+        >
+          Go Back Home
+        </Link>
+      </motion.div>
+    </div>
+  )
+}
 
 // Admin
 import { AuthProvider } from './context/AuthContext'
@@ -49,6 +90,7 @@ function PublicRoutes() {
           <Route path="/blog"        element={<Blog />} />
           <Route path="/foundation"  element={<Foundation />} />
           <Route path="/contact"     element={<Contact />} />
+          <Route path="*"            element={<NotFound />} />
         </Routes>
       </AnimatePresence>
       <Footer />
@@ -82,6 +124,7 @@ function AdminRoutes() {
               <Route path="/blog/new"      element={<AdminBlogEditor />} />
               <Route path="/blog/edit/:id" element={<AdminBlogEditor />} />
               <Route path="/messages"      element={<AdminMessages />} />
+              <Route path="*"             element={<NotFound />} />
             </Routes>
           </AdminLayout>
         </ProtectedRoute>

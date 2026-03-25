@@ -44,8 +44,9 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 // ─── Middleware ────────────────────────────────────────────────
+const clientURL = process.env.CLIENT_URL || 'http://localhost:5173';
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174', 'http://127.0.0.1:5173', 'http://127.0.0.1:5174'],
+  origin: [clientURL, 'http://localhost:5173', 'http://localhost:5174', 'http://127.0.0.1:5173', 'http://127.0.0.1:5174'],
   credentials: true,
 }))
 app.use(express.json({ limit: '500kb' }))
@@ -61,7 +62,9 @@ app.post('/api/upload', (req, res) => {
     if (!req.file) {
       return res.status(400).json({ success: false, message: 'No file uploaded' })
     }
-    const imageUrl = `http://localhost:5000/uploads/${req.file.filename}`
+    // Use the server's own URL or environment variable
+    const serverURL = process.env.SERVER_URL || `http://localhost:${PORT}`;
+    const imageUrl = `${serverURL}/uploads/${req.file.filename}`
     res.json({ success: true, data: { url: imageUrl } })
   })
 })
@@ -86,9 +89,9 @@ app.get('/api/health', (req, res) => {
   })
 })
 
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({ success: false, message: 'Route not found.' })
+// 404 handler - only for API routes
+app.use('/api', (req, res) => {
+  res.status(404).json({ success: false, message: 'API route not found.' })
 })
 
 // Global error handler

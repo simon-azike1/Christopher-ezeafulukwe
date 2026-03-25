@@ -1,7 +1,15 @@
 import axios from 'axios';
 
+const getBaseURL = () => {
+  // Use environment variable in production, localhost in development
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  return 'http://localhost:5000';
+};
+
 const api = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: getBaseURL(),
   headers: {
     'Content-Type': 'application/json',
   },
