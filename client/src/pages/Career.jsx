@@ -129,7 +129,7 @@ export default function Career() {
 
                   {/* Career Card */}
                   <div 
-                    className="p-6 md:p-8 rounded-xl transition-all"
+                    className="p-6 md:p-8 rounded-none transition-all"
                     style={{ 
                       backgroundColor: item.type === 'current' ? 'var(--color-navy)' : 'var(--bg-card)',
                       border: `1px solid ${item.type === 'current' ? 'var(--color-gold)' : 'var(--border-subtle)'}`,
@@ -153,7 +153,7 @@ export default function Career() {
                     
                     {item.type === 'current' && (
                       <div className="mt-6">
-                        <span className="inline-block font-sans text-[10px] tracking-widest uppercase bg-gold text-navy px-3 py-1 font-bold rounded-sm">
+                        <span className="inline-block font-sans text-[10px] tracking-widest uppercase bg-gold text-navy px-3 py-1 font-bold rounded-none">
                           Current Role
                         </span>
                       </div>
