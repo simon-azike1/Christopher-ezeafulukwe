@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { FaGraduationCap, FaBolt, FaUsers, FaBalanceScale } from 'react-icons/fa'
 import api from '../util/api'
+import { useTheme } from '../context/ThemeContext'
 
 const emptyPillars = [
   { 
@@ -29,6 +30,7 @@ const emptyPillars = [
 ]
 
 export default function Foundation() {
+  const { dark } = useTheme()
   const [pillars, setPillars] = useState(emptyPillars)
   const [loading, setLoading] = useState(true)
 
@@ -56,10 +58,10 @@ export default function Foundation() {
   return (
     <PageWrapper>
       {/* Full-screen hero */}
-      <section className="min-h-screen bg-navy relative flex items-center overflow-hidden">
+      <section className={`min-h-screen relative flex items-center overflow-hidden ${dark ? 'bg-navy' : 'bg-cream'}`}>
         <div className="absolute inset-0 opacity-5"
           style={{ backgroundImage: 'repeating-linear-gradient(-45deg, #C9922A 0, #C9922A 1px, transparent 0, transparent 50%)', backgroundSize: '30px 30px' }} />
-        <div className="absolute right-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-gold to-transparent" />
+        <div className={`absolute right-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-gold to-transparent ${dark ? '' : 'hidden'}`} />
 
         <div className="max-w-5xl mx-auto px-6 md:px-12 lg:px-24 pt-40 md:pt-48 pb-20 text-center relative z-10">
           <motion.div 
@@ -82,7 +84,7 @@ export default function Foundation() {
             initial={{ opacity: 0, y: 30 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ delay: 0.3 }}
-            className="font-display text-cream text-4xl md:text-7xl font-light leading-tight mb-6"
+            className={`font-display text-4xl md:text-7xl font-light leading-tight mb-6 ${dark ? 'text-cream' : 'text-navy'}`}
           >
             The Ezeafulukwe  
 <em className="text-gold italic font-semibold">Foundation</em>
@@ -97,7 +99,7 @@ export default function Foundation() {
             initial={{ opacity: 0, y: 20 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ delay: 0.6 }}
-            className="font-body text-cream/70 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto mb-10"
+            className={`font-body text-lg md:text-xl leading-relaxed max-w-3xl mx-auto mb-10 ${dark ? 'text-cream/70' : 'text-navy/70'}`}
           >
             A forthcoming initiative dedicated to education, energy access, and the empowerment of Africa's youth — because a continent's greatest asset is always its people.
           </motion.p>
@@ -137,7 +139,11 @@ export default function Foundation() {
               >
                 {p.image ? (
                   <div className="w-full h-40 mb-6 overflow-hidden rounded-none">
-                    <img 
+                    <motion.img 
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5 }}
                       src={p.image} 
                       alt={p.title} 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -166,10 +172,10 @@ export default function Foundation() {
       {/* CTA */}
       <section className="bg-navy section-padding text-center px-6 md:px-12">
         <div className="max-w-3xl mx-auto">
-          <h2 className="font-display text-cream text-3xl md:text-5xl font-light mb-6 leading-tight">
+          <h2 className={`font-display text-3xl md:text-5xl font-light mb-6 leading-tight ${dark ? 'text-cream' : 'text-navy'}`}>
             Be Part of the <em className="text-gold italic">Change</em>
           </h2>
-          <p className="font-body text-cream/60 text-sm md:text-base mb-10 leading-relaxed">
+          <p className={`font-body text-sm md:text-base mb-10 leading-relaxed ${dark ? 'text-cream/60' : 'text-navy/60'}`}>
             The Foundation is in its founding phase. If you share this vision for Africa's transformation, we'd love to connect with you.
           </p>
           <Link 

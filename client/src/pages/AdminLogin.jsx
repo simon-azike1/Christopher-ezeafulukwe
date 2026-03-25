@@ -2,11 +2,13 @@ import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import { FiEye, FiEyeOff } from 'react-icons/fi'
 
 export default function AdminLogin() {
   const { login } = useAuth()
   const navigate = useNavigate()
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -50,20 +52,27 @@ export default function AdminLogin() {
             </motion.div>
           )}
 
-          <div>
+          <div className="relative">
             <label className="font-sans text-xs uppercase tracking-widest text-cream/40 block mb-2">
               Admin Password
             </label>
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={e => setPassword(e.target.value)}
               required
               autoFocus
-              className="w-full bg-navy-light border border-cream/10 focus:border-gold px-4 py-3
+              className="w-full bg-navy-light border border-cream/10 focus:border-gold px-4 py-3 pr-12
                          font-sans text-sm text-cream placeholder-cream/20 outline-none transition-colors"
               placeholder="Enter password"
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-4 top-9 text-cream/40 hover:text-gold transition-colors"
+            >
+              {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+            </button>
           </div>
 
           <button type="submit" disabled={loading}

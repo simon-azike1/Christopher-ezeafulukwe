@@ -123,8 +123,12 @@ export default function Projects() {
                 }}
               >
                 {p.image && (
-                  <div className="w-full h-40 mb-6 overflow-hidden rounded-none">
-                    <img 
+                  <div className="w-full h-96 mb-6 overflow-hidden rounded-none">
+                    <motion.img 
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5 }}
                       src={p.image} 
                       alt={p.title} 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"

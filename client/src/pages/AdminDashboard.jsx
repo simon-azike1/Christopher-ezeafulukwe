@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import api from '../util/api'
 import { FiFileText, FiMail, FiEye, FiPlus, FiGrid, FiBook, FiHeart } from 'react-icons/fi'
+import { useTheme } from '../context/ThemeContext'
 
 export default function AdminDashboard() {
+  const { dark } = useTheme()
   const [stats, setStats] = useState({ 
     posts: 0, 
     messages: 0, 
@@ -60,7 +62,7 @@ export default function AdminDashboard() {
       {/* Header */}
       <div className="mb-10">
         <p className="font-sans text-gold text-xs tracking-[0.4em] uppercase mb-2">Overview</p>
-        <h1 className="font-display text-cream text-4xl font-light">Dashboard</h1>
+        <h1 className={`font-display text-4xl font-light ${dark ? 'text-cream' : 'text-navy'}`}>Dashboard</h1>
         <div className="w-10 h-px bg-gold/40 mt-4" />
       </div>
 
@@ -77,10 +79,10 @@ export default function AdminDashboard() {
                 </div>
                 <FiEye size={14} className="text-cream/20 group-hover:text-cream/40 transition-colors" />
               </div>
-              <p className="font-display text-cream text-3xl font-light mt-4">
+              <p className={`font-display text-3xl font-light mt-4 ${dark ? 'text-cream' : 'text-navy'}`}>
                 {loading ? '—' : card.value}
               </p>
-              <p className="font-sans text-cream/40 text-xs tracking-widest uppercase mt-1">{card.label}</p>
+              <p className={`font-sans text-xs tracking-widest uppercase mt-1 ${dark ? 'text-cream/40' : 'text-navy/40'}`}>{card.label}</p>
             </Link>
           </motion.div>
         ))}
@@ -88,7 +90,7 @@ export default function AdminDashboard() {
 
       {/* Quick Actions */}
       <div className="mb-10">
-        <h2 className="font-sans text-cream/50 text-xs tracking-widest uppercase mb-4">Quick Actions</h2>
+        <h2 className={`font-sans text-xs tracking-widest uppercase mb-4 ${dark ? 'text-cream/50' : 'text-navy/50'}`}>Quick Actions</h2>
         <div className="flex flex-wrap gap-3">
           <Link to="/admin/blog/new"
             className="flex items-center gap-2 bg-gold hover:bg-gold-dark text-navy
@@ -115,14 +117,14 @@ export default function AdminDashboard() {
             New Foundation
           </Link>
           <Link to="/admin/messages"
-            className="flex items-center gap-2 border border-cream/10 hover:border-gold/40 text-cream/60
-                       hover:text-cream font-sans text-xs tracking-widest uppercase px-5 py-2.5 transition-colors">
+            className={`flex items-center gap-2 border transition-colors font-sans text-xs tracking-widest uppercase px-5 py-2.5 
+              ${dark ? 'border-cream/10 hover:border-gold/40 text-cream/60 hover:text-cream' : 'border-navy/10 hover:border-gold/40 text-navy/60 hover:text-navy'}`}>
             <FiMail size={14} />
             View Messages
           </Link>
           <a href="/" target="_blank" rel="noreferrer"
-            className="flex items-center gap-2 border border-cream/10 hover:border-gold/40 text-cream/60
-                       hover:text-cream font-sans text-xs tracking-widest uppercase px-5 py-2.5 transition-colors">
+            className={`flex items-center gap-2 border transition-colors font-sans text-xs tracking-widest uppercase px-5 py-2.5 
+              ${dark ? 'border-cream/10 hover:border-gold/40 text-cream/60 hover:text-cream' : 'border-navy/10 hover:border-gold/40 text-navy/60 hover:text-navy'}`}>
             View Live Site ↗
           </a>
         </div>
@@ -130,12 +132,12 @@ export default function AdminDashboard() {
 
       {/* Recent Messages */}
       <div>
-        <h2 className="font-sans text-cream/50 text-xs tracking-widest uppercase mb-4">Recent Messages</h2>
+        <h2 className={`font-sans text-xs tracking-widest uppercase mb-4 ${dark ? 'text-cream/50' : 'text-navy/50'}`}>Recent Messages</h2>
         {loading ? (
-          <p className="font-sans text-cream/30 text-sm">Loading...</p>
+          <p className={`font-sans text-sm ${dark ? 'text-cream/30' : 'text-navy/30'}`}>Loading...</p>
         ) : recentMessages.length === 0 ? (
-          <div className="bg-navy border border-cream/5 p-6 text-center">
-            <p className="font-sans text-cream/30 text-sm">No messages yet.</p>
+          <div className={`border p-6 text-center ${dark ? 'bg-navy border-cream/5' : 'bg-white border-navy/10'}`}>
+            <p className={`font-sans text-sm ${dark ? 'text-cream/30' : 'text-navy/30'}`}>No messages yet.</p>
           </div>
         ) : (
           <div className="space-y-2">

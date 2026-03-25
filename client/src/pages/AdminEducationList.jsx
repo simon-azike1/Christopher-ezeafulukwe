@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import api from '../util/api'
+import { useTheme } from '../context/ThemeContext'
 import { FiPlus, FiEdit2, FiTrash2 } from 'react-icons/fi'
 
 export default function AdminEducationList() {
+  const { dark } = useTheme()
   const [education, setEducation] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
