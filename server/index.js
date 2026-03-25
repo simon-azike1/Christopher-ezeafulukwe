@@ -73,9 +73,9 @@ if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && proce
 }
 
 // ─── Middleware ────────────────────────────────────────────────
-const clientURL = process.env.CLIENT_URL || 'http://localhost:5173';
+const clientURL = process.env.CLIENT_URL || 'https://christopher-ezeafulukwe.vercel.app';
 app.use(cors({
-  origin: [clientURL, 'http://localhost:5173', 'http://localhost:5174', 'http://127.0.0.1:5173', 'http://127.0.0.1:5174'],
+  origin: [clientURL, 'http://localhost:5173', 'http://localhost:5174', 'http://127.0.0.1:5173', 'http://127.0.0.1:5174', 'https://christopher-ezeafulukwe.vercel.app'],
   credentials: true,
 }))
 app.use(express.json({ limit: '500kb' }))
@@ -99,7 +99,7 @@ app.post('/api/upload', (req, res) => {
       imageUrl = req.file.path
     } else {
       // Local storage returns filename, construct the URL
-      const serverURL = process.env.SERVER_URL || `http://localhost:${PORT}`;
+      const serverURL = process.env.SERVER_URL || 'https://christopher-ezeafulukwe.onrender.com';
       imageUrl = `${serverURL}/uploads/${req.file.filename}`
     }
     
@@ -113,8 +113,17 @@ app.use('/api/admin',   require('./routes/admin'))
 app.use('/api/content', require('./routes/content'))
 
 // Serve uploaded files with CORS headers
+const serverURL = process.env.SERVER_URL || 'https://christopher-ezeafulukwe.onrender.com';
 app.use('/uploads', (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
+  // Replace localhost URL with production URL in response
+  const originalSend = res.send.bind(res)
+  res.send = function(body) {
+    if (typeof body === 'string' && body.includes('localhost:5000')) {
+      body = body.replace(/http:\/\/localhost:5000/g, serverURL)
+    }
+    return originalSend(body)
+  }
   next()
 }, express.static(path.join(__dirname, 'public', 'uploads')))
 
