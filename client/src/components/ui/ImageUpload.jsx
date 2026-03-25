@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react'
 import { FiUpload, FiX, FiImage } from 'react-icons/fi'
-
-const API_URL = 'http://localhost:5000'
+import api from '../../util/api'
 
 export default function ImageUpload({ value, onChange, label = 'Image' }) {
   const [uploading, setUploading] = useState(false)
@@ -31,17 +30,14 @@ export default function ImageUpload({ value, onChange, label = 'Image' }) {
       const formData = new FormData()
       formData.append('image', file)
 
-      const response = await fetch(`${API_URL}/api/upload`, {
-        method: 'POST',
-        body: formData,
+      const response = await api.post('/api/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
       })
 
-      const data = await response.json()
-
-      if (data.success) {
-        onChange(data.data.url)
+      if (response.data.success) {
+        onChange(response.data.data.url)
       } else {
-        setError(data.message || 'Upload failed')
+        setError(response.data.message || 'Upload failed')
       }
     } catch (err) {
       setError('Failed to upload image')
@@ -65,7 +61,7 @@ export default function ImageUpload({ value, onChange, label = 'Image' }) {
       {value ? (
         <div className="relative inline-block group">
           <img 
-            src={value.startsWith('http') ? value : `${API_URL}${value}`}
+            src={value}
             alt="Preview"
             className="w-32 h-32 object-cover rounded-lg border border-cream/10"
           />
