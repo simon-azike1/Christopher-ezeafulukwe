@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap');
+
+@import "tailwindcss";
+
+/* ── Tailwind v4 theme tokens ─────────────────────────── */
+@theme {
+  --color-navy:        #0B1F3A;
+  --color-navy-light:  #162d52;
+  --color-navy-dark:   #071428;
+  --color-gold:        #C9922A;
+  --color-gold-light:  #E0A83A;
+  --color-gold-dark:   #A87820;
+  --color-cream:       #F5F0E8;
+  --color-charcoal:    #2C2C2C;
+
+  --font-display: "Cormorant Garamond", serif;
+  --font-body:    "Libre Baskerville", serif;
+  --font-sans:    "Jost", sans-serif;
+}
+
+/* ── Site-level design tokens ─────────────────────────── */
+:root {
+  --bg-page:        #F5F0E8;
+  --bg-card:        #FFFFFF;
+  --bg-card-alt:    #EDE8DF;
+  --text-primary:   #0B1F3A;
+  --text-muted:     #4A5568;
+  --text-faint:     #718096;
+  --border-subtle:  rgba(11, 31, 58, 0.08);
+  --border-medium:  rgba(11, 31, 58, 0.15);
+  --navbar-bg:      rgba(11, 31, 58, 0.95);
+  --section-alt:    #EDE8DF;
+}
+
+/* ── Dark mode tokens ─────────────────────────────────── */
+[data-theme="dark"] {
+  --bg-page:        #071428;
+  --bg-card:        #0B1F3A;
+  --bg-card-alt:    #162d52;
+  --text-primary:   #F5F0E8;
+  --text-muted:     #C9C4BA;
+  --text-faint:     #A09890;
+  --border-subtle:  rgba(245, 240, 232, 0.06);
+  --border-medium:  rgba(245, 240, 232, 0.12);
+  --navbar-bg:      rgba(7, 20, 40, 0.97);
+  --section-alt:    #0D1C2E;
+}
+
+/* ── Base styles ──────────────────────────────────────── */
+*, *::before, *::after {
+  margin: 10;
+  padding: 10;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+}
+
+/* ── Reusable utility classes ─────────────────────────── */
+.section-padding {
+  padding: 5rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding { padding: 5rem 3rem; }
+}
+
+@media (min-width: 1024px) {
+  .section-padding { padding: 5rem 6rem; }
+  
+}
+
+.btn-primary {
+  display: inline-block;
+  background-color: var(--color-gold);
+  color: var(--color-cream);
+  padding: 0.75rem 2rem;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+}
+.btn-primary:hover {
+  background-color: var(--color-gold-dark);
+}
+
+.btn-outline {
+  display: inline-block;
+  border: 1px solid var(--color-gold);
+  color: var(--color-gold);
+  padding: 0.75rem 2rem;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+.btn-outline:hover {
+  background-color: var(--color-gold);
+  color: var(--color-cream);
+}
+
+.nav-link {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.8);
+  transition: color 0.3s ease;
+}
+.nav-link:hover {
+  color: var(--color-gold);
+}
+
+.gold-divider {
+  width: 4rem;
+  height: 2px;
+  background-color: var(--color-gold);
+  margin: 1.5rem 0;
+}
+
+/* Page bg that respects dark mode */
+.page-bg        { background-color: var(--bg-page); }
+.card-bg        { background-color: var(--bg-card); }
+.card-alt-bg    { background-color: var(--bg-card-alt); }
+.text-primary   { color: var(--text-primary); }
+.text-muted     { color: var(--text-muted); }
+.text-faint     { color: var(--text-faint); }
+.border-subtle  { border-color: var(--border-subtle); }
+.border-medium  { border-color: var(--border-medium); }
+
+/* ── Scrollbar ────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-navy); }
+::-webkit-scrollbar-thumb { background: var(--color-gold); }
+
+/* ── Smooth theme transition on all elements ──────────── */
+*, *::before, *::after {
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
