@@ -3,7 +3,8 @@ import { AnimatePresence } from 'framer-motion'
 import { ThemeProvider } from './context/ThemeContext'
 import { motion } from 'framer-motion'
 
-// Layout
+// Components
+import ScrollToTop from './components/ui/ScrollToTop.jsx'
 import Navbar from './components/layouts/Navbar.jsx'
 import Footer from './components/layouts/Footer.jsx'
 import ProtectedRoute from './components/ui/ProtectedRoute.jsx'
@@ -138,6 +139,7 @@ export default function App() {
     <ThemeProvider>
       <AuthProvider>
         <Router>
+          <ScrollToTop />
           <Routes>
             <Route path="/admin/*"     element={<AdminRoutes />} />
             <Route path="/admin/login" element={<AdminLogin />} />
