@@ -9,7 +9,7 @@ export default function Portrait({ variant = 'about', size = 'md', dark = false 
   const imageSrc = portraits[variant] || portraits.about
 
   const sizeClasses = {
-    lg: 'w-80 h-80 md:w-96 md:h-96',
+    lg: 'w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96',
     md: 'w-64 h-64 md:w-80 md:h-80',
   }
 

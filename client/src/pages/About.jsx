@@ -93,12 +93,12 @@ export default function About() {
       {/* ── Main Content ──────────────────────────────────────── */}
       <section className="section-padding page-bg px-6 md:px-12">
         {/* 🔁 Increased gap for more space between columns */}
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-20 lg:gap-40">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-40">
 
           {/* ── Left Column ── */}
           <motion.div
             style={{ y: portraitY }}
-            className="lg:col-span-1 flex flex-col items-center lg:items-start gap-8 sticky top-24 self-start"
+            className="lg:col-span-1 flex flex-col items-center lg:items-start gap-8 lg:sticky lg:top-24 lg:self-start"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -251,7 +251,7 @@ export default function About() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="relative pl-8 my-12 py-6 rounded-none"
+              className="relative pl-4 md:pl-8 my-12 py-6 rounded-none"
               style={{
                 borderLeft: '4px solid var(--color-gold)',
                 background: 'linear-gradient(to right, rgba(201,146,42,0.05), transparent)'

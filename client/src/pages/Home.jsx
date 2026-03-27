@@ -164,19 +164,19 @@ export default function Home() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.85 }}
-              className="flex flex-wrap items-center gap-4"
+              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4"
             >
               <Link 
                 to="/about" 
-                className={`group inline-flex items-center gap-2 px-6 py-3.5 bg-gold font-medium rounded-lg hover:bg-gold-light transition-all duration-300 shadow-lg ${heroDark ? 'shadow-gold/20 hover:shadow-gold/40 text-navy' : 'shadow-gold/30 text-navy'}`}
+                className={`group inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-gold font-medium rounded-lg hover:bg-gold-light transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5 ${heroDark ? 'shadow-gold/20 hover:shadow-gold/40 text-navy' : 'shadow-gold/30 text-navy'}`}
               >
                 Discover His Story
-                <motion.span animate={{ x: [0, 4, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>→</motion.span>
+                <motion.span animate={{ x: [0, 4, 0] }} transition={{ repeat: Infinity, duration: 1.5 }} className="text-lg">→</motion.span>
               </Link>
               
               <Link 
                 to="/career" 
-                className={`inline-flex items-center gap-2 px-6 py-3.5 border font-medium rounded-lg transition-all duration-300 backdrop-blur-sm ${heroDark ? 'border-cream/40 text-cream hover:bg-cream/10' : 'border-navy/40 text-navy hover:bg-navy/5'}`}
+                className={`inline-flex items-center justify-center gap-2 px-6 py-3.5 border-2 font-medium rounded-lg transition-all duration-300 hover:-translate-y-0.5 ${heroDark ? 'border-cream/50 text-cream hover:bg-cream/10 hover:border-cream' : 'border-navy/50 text-navy hover:bg-navy/5 hover:border-navy'}`}
               >
                 View Career
               </Link>
@@ -185,7 +185,7 @@ export default function Home() {
                 href="https://www.linkedin.com/in/christopher-ezeafulukwe-121450ba/"
                 target="_blank" 
                 rel="noopener noreferrer"
-                className={`p-3 transition-colors duration-300 rounded-full hover:bg-white/10 ${heroDark ? 'text-cream/70 hover:text-gold' : 'text-navy/70 hover:text-gold'}`}
+                className={`p-3.5 transition-all duration-300 rounded-full border-2 hover:-translate-y-0.5 ${heroDark ? 'text-cream/70 hover:text-gold border-cream/30 hover:border-gold hover:bg-gold/10' : 'text-navy/70 hover:text-gold border-navy/30 hover:border-gold hover:bg-gold/10'}`}
                 aria-label="Connect on LinkedIn"
               >
                 <FaLinkedin className="text-xl" />
