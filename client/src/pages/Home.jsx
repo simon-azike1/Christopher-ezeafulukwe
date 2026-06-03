@@ -111,13 +111,13 @@ export default function Home() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="space-y-8"
           >
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-gold/10 border border-gold/30 backdrop-blur-sm"
-            >
-              <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
+<motion.div
+  initial={{ opacity: 0, y: 10 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ delay: 0.2 }}
+  className="inline-flex items-center gap-3 px-4 py-2 rounded-none bg-gold/10 border border-gold/30 backdrop-blur-sm"
+>
+              <span className="w-2 h-2  bg-gold animate-pulse" />
               <p className="font-sans text-gold text-xs tracking-[0.35em] uppercase">
                 MD/CEO — Transcorp Energy Limited
               </p>
