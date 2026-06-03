@@ -112,7 +112,7 @@ export default function Foundation() {
             transition={{ delay: 0.6 }}
             className={`font-body text-lg md:text-xl leading-relaxed max-w-3xl mx-auto mb-10 ${heroDark ? 'text-cream/70' : 'text-navy/70'}`}
           >
-            A forthcoming initiative dedicated to education, energy access, and the empowerment of Africa's youth — because a continent's greatest asset is always its people.
+            A forthcoming initiative dedicated to education, energy access, and the empowerment of Africa's youth, because a continent's greatest asset is always its people.
           </motion.p>
           <motion.span 
             initial={{ opacity: 0 }} 
