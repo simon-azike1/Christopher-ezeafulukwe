@@ -2,8 +2,7 @@ import { useEffect } from 'react'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import PageWrapper from '../components/ui/PageWrapper'
-import Portrait from '../components/ui/Portrait'
-import { FaLinkedin, FaChevronDown } from 'react-icons/fa'
+import { FaLinkedin } from 'react-icons/fa'
 import { useRef } from 'react'
 import { useTheme } from '../context/ThemeContext'
 
@@ -11,124 +10,81 @@ export default function Home() {
   const { dark } = useTheme()
   const { scrollY } = useScroll()
   const containerRef = useRef(null)
-  
-  // Hero section uses theme context (defaults to dark on first visit)
+   
   const heroDark = dark
-  
-  // ── Parallax Transforms ─────────────────────────────
-  const videoY = useTransform(scrollY, [0, 500], [0, 150])
-  const textY = useTransform(scrollY, [0, 300], [0, -50])
-  const portraitScale = useTransform(scrollY, [0, 400], [1, 0.95])
-  const overlayOpacity = useTransform(scrollY, [0, 200], [0.7, 0.9])
-  const gridOpacity = useTransform(scrollY, [0, 300], [0.03, 0.01])
-  
+   
+// ── Parallax Transforms ─────────────────
+   const videoY = useTransform(scrollY, [0, 500], [0, 150])
+   const textY = useTransform(scrollY, [0, 300], [0, -50])
+   const overlayOpacity = useTransform(scrollY, [0, 200], [0.6, 0.8])
+   
   // Smooth spring physics for natural motion
   const smoothVideoY = useSpring(videoY, { stiffness: 100, damping: 30 })
   const smoothTextY = useSpring(textY, { stiffness: 80, damping: 25 })
-
-  // ── YouTube Config ─────────────────────────────
-  const YOUTUBE_ID = '42myxeio3ik'
-  const youtubeParams = new URLSearchParams({
-    autoplay: '1',
-    mute: '1',
-    loop: '1',
-    playlist: YOUTUBE_ID,
-    controls: '0',
-    showinfo: '0',
-    rel: '0',
-    modestbranding: '1',
-    playsinline: '1',
-    iv_load_policy: '3',
-    disablekb: '1',
-  }).toString()
-
+   
+   
   return (
     <PageWrapper>
       {/* ── Video Hero Section ─────────────────────────────────────────── */}
       <section 
         ref={containerRef}
-        className={`relative min-h-screen flex items-center overflow-hidden ${heroDark ? 'bg-navy' : 'bg-cream'}`}
+        className="relative min-h-screen flex items-center justify-center overflow-hidden mt-15"
       >
-        {/* YouTube Background with Parallax */}
-        <motion.div 
-          style={{ y: smoothVideoY }}
-          className="absolute inset-0 w-full h-full pointer-events-none"
-        >
-          <div className="relative w-full h-full">
-            {/* <iframe
-              src={`https://www.youtube.com/embed/${YOUTUBE_ID}?${youtubeParams}`}
-              className="absolute inset-0 w-[177.78vh] min-w-full min-h-full max-w-none 
-                        left-1/2 -translate-x-1/2 object-cover"
-              style={{ 
-                aspectRatio: '16/9',
-                filter: 'brightness(0.7) contrast(1.1)',
-                transition: 'filter 0.5s ease'
-              }}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              title="Background Video"
-              loading="lazy"
-            /> */}
-            {/* Fallback poster image */}
-            <div 
-              className={`absolute inset-0 bg-cover bg-center ${heroDark ? 'bg-navy/90' : 'bg-cream'}`}
-              style={{ backgroundImage: heroDark ? 'url("/images/hero-poster.jpg")' : 'none' }}
-            />
-          </div>
-        </motion.div>
-        
-        {/* Dark Overlay for Text Readability */}
-        <motion.div 
-          style={{ opacity: overlayOpacity }}
-          className={`absolute inset-0 transition-colors duration-300 ${heroDark ? 'bg-gradient-to-br from-navy/95 via-navy/80 to-navy/60' : 'bg-cream/30'}`}
-        />
-        
-        {/* Subtle Animated Grid Texture */}
-        <motion.div 
-          className="absolute inset-0"
-          style={{ 
-            opacity: gridOpacity,
-            backgroundImage: `repeating-linear-gradient(45deg, #C9922A 0, #C9922A 1px, transparent 1px, transparent 24px)`,
-            backgroundSize: '24px 24px'
-          }} 
-        />
-
-        {/* Left Gold Accent Bar with Parallax */}
-        <motion.div 
-          style={{ y: useTransform(scrollY, [0, 300], [0, -20]) }}
+{/* Video Background with Parallax */}
+         <motion.div 
+           style={{ y: smoothVideoY }}
+           className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden"
+         >
+           <div className="relative w-full h-full overflow-hidden">
+             <video 
+               autoPlay 
+               muted 
+               loop
+                 playsInline
+                 className="absolute inset-0 w-full h-full"
+                 style={{ 
+                   objectFit: 'cover',
+                   objectPosition: 'center center',
+                   filter: 'brightness(0.9) contrast(1.0)',
+                   backgroundColor: '#000',
+                 }}
+               >
+                 <source src="https://res.cloudinary.com/djizgbimn/video/upload/v1784740471/videoplayback_ncnukx.mp4" type="video/mp4" />
+                 Your browser does not support the video tag.
+               </video>
+           </div>
+         </motion.div>
+         
+{/* Dark Overlay for Text Readability */}
+         <motion.div 
+           style={{ opacity: overlayOpacity }}
+           className={`absolute inset-0 transition-colors duration-300 ${heroDark ? 'bg-navy/90' : 'bg-black/90'}`}
+         />
+         
+        {/* Left Gold Accent Bar */}
+        <div 
           className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-gold to-transparent opacity-80 ${heroDark ? '' : 'hidden'}`}
         />
-
-        {/* Content Container */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-24 pt-32 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center w-full">
-          
-          {/* ── Text Content with Parallax ── */}
+   
+        {/* Content Container - Centered, Single Column */}
+        <div className="relative z-10 max-w-4xl mx-auto px-6 md:px-12 lg:px-24 pt-10 pb-20 w-full">
+         
+          {/* ── Text Content - Centered ── */}
           <motion.div
             style={{ y: smoothTextY }}
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="space-y-8"
+            className="space-y-8 text-center"
           >
-<motion.div
-  initial={{ opacity: 0, y: 10 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ delay: 0.2 }}
-  className="inline-flex items-center gap-3 px-4 py-2 rounded-none bg-none border border-none backdrop-blur-sm"
->
-              <span className="w-2 h-2  bg-gold animate-pulse" />
-              <p className="font-sans text-gold text-xs tracking-[0.35em] uppercase">
-                MD/CEO — Transcorp Energy Limited
-              </p>
-            </motion.div>
-
+            
+   
             <div className="space-y-2">
               <motion.h1 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.35 }}
-                className={`font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light leading-[0.95] ${heroDark ? 'text-cream' : 'text-navy'}`}
+                className={`font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light leading-[0.95] ${heroDark ? 'text-cream' : 'text-white'}`}
               >
                 Christopher
               </motion.h1>
@@ -136,95 +92,86 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.45 }}
-                className="font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold text-gold leading-[0.95]"
+                className="font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold text-white leading-[0.95]"
               >
                 Ezeafulukwe
               </motion.h1>
             </div>
-
+   
             <motion.div 
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
               transition={{ delay: 0.6, duration: 0.6 }}
-              className="w-24 h-0.5 bg-gradient-to-r from-gold to-transparent origin-left" 
+              className="w-24 h-0.5 bg-gradient-to-r from-gold to-transparent origin-center mx-auto" 
             />
-
+   
             <motion.p 
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7 }}
-              className={`font-body text-lg md:text-xl leading-relaxed max-w-xl ${heroDark ? 'text-cream/90' : 'text-navy/80'}`}
+              className={`font-body text-lg md:text-xl leading-relaxed max-w-2xl mx-auto ${heroDark ? 'text-cream/90' : 'text-white/90'}`}
             >
               Energy executive, legal scholar, and corporate governance leader with over two decades 
               shaping Africa's power sector through innovation, integrity, and impact.
             </motion.p>
-
-            {/* Action Buttons */}
+   
+            {/* Action Buttons - Centered */}
             <motion.div 
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.85 }}
-              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4"
+              className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
             >
               <Link 
                 to="/about" 
-                className={`group inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-gold font-medium rounded-lg hover:bg-gold-light transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5 ${heroDark ? 'shadow-gold/20 hover:shadow-gold/40 text-navy' : 'shadow-gold/30 text-navy'}`}
+                className={`group inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-gold font-medium rounded-lg hover:bg-gold-light transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5 ${heroDark ? 'shadow-gold/20 hover:shadow-gold/40 text-navy' : 'shadow-gold/30 text-white'}`}
               >
                 Discover His Story
-                <motion.span animate={{ x: [0, 4, 0] }} transition={{ repeat: Infinity, duration: 1.5 }} className="text-lg">→</motion.span>
+                <motion.span animate={{ x: [0, 4, 0], transition: { repeat: Infinity, duration: 1.5 } }} className="text-lg">→</motion.span>
               </Link>
-              
+               
               <Link 
                 to="/career" 
-                className={`inline-flex items-center justify-center gap-2 px-6 py-3.5 border-2 font-medium rounded-lg transition-all duration-300 hover:-translate-y-0.5 ${heroDark ? 'border-cream/50 text-cream hover:bg-cream/10 hover:border-cream' : 'border-navy/50 text-navy hover:bg-navy/5 hover:border-navy'}`}
+                className={`inline-flex items-center justify-center gap-2 px-6 py-3.5 border-2 font-medium rounded-lg transition-all duration-300 hover:-translate-y-0.5 ${heroDark ? 'border-cream/50 text-cream hover:bg-cream/10 hover:border-cream' : 'border-white/50 text-white hover:bg-white/10 hover:border-white'}`}
               >
                 View Career
               </Link>
-              
+               
               <a 
                 href="https://www.linkedin.com/in/christopher-ezeafulukwe-121450ba/"
                 target="_blank" 
                 rel="noopener noreferrer"
-                className={`p-3.5 transition-all duration-300 rounded-full border-2 hover:-translate-y-0.5 ${heroDark ? 'text-cream/70 hover:text-gold border-cream/30 hover:border-gold hover:bg-gold/10' : 'text-navy/70 hover:text-gold border-navy/30 hover:border-gold hover:bg-gold/10'}`}
+                className={`p-3.5 transition-all duration-300 rounded-full border-2 hover:-translate-y-0.5 ${heroDark ? 'text-cream/70 hover:text-gold border-cream/30 hover:border-gold hover:bg-gold/10' : 'text-white/70 hover:text-white border-white/30 hover:border-white hover:bg-white/10'}`}
                 aria-label="Connect on LinkedIn"
               >
                 <FaLinkedin className="text-xl" />
               </a>
             </motion.div>
           </motion.div>
-
-          {/* ── Portrait Image with Parallax Scale ── */}
-          <motion.div 
-            style={{ scale: portraitScale }}
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
-            className="hidden lg:flex justify-center items-end relative"
-          >
-            {/* Decorative glow behind portrait */}
-            <div className="absolute -inset-4 bg-gold/20 rounded-full blur-3xl opacity-30 animate-pulse" />
-            <Portrait variant="hero" size="lg" dark={true} className="relative z-10 drop-shadow-2xl" />
-          </motion.div>
         </div>
 
-        {/* Scroll Indicator with Parallax Fade */}
+        {/* Scroll Indicator */}
         <motion.div 
-          style={{ 
-            opacity: useTransform(scrollY, [0, 150, 300], [1, 0.7, 0]),
-            y: useTransform(scrollY, [0, 200], [0, 30])
-          }}
-          className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 ${heroDark ? 'text-cream/50' : 'text-navy/50'}`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
         >
-          <span className="font-sans text-[10px] tracking-[0.3em] uppercase">Explore</span>
-          <motion.div 
-            animate={{ y: [0, 10, 0] }} 
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
             transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-            className="p-2 rounded-full border border-cream/30 hover:border-gold/60 transition-colors"
+            className="flex flex-col items-center gap-2 text-white/60"
           >
-            <FaChevronDown className="text-lg" />
+            <span className="text-[10px] tracking-[0.3em] uppercase">Scroll</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M12 5v14M5 12l7 7 7-7" />
+            </svg>
           </motion.div>
         </motion.div>
       </section>
+    
+  )
+
 
       {/* ── Stats Strip ─────────────────────────────────── */}
       <section className="relative bg-gold py-14 overflow-hidden">
@@ -290,7 +237,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
+            transaction={{ delay: 0.2 }}
             className="font-body text-charcoal/80 dark:text-cream/80 text-lg leading-relaxed mb-12 max-w-3xl mx-auto"
           >
             From the courtrooms of Lagos to the boardrooms of Abuja, Christopher Ezeafulukwe has dedicated his career
@@ -311,5 +258,5 @@ export default function Home() {
         </div>
       </section>
     </PageWrapper>
-  )
+  );
 }
